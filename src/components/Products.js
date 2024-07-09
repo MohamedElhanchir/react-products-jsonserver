@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext, useState } from 'react'
 import { AppContext, checkProduct, deleteProduct, getProducts } from '../app/app'
 import { useNavigate } from 'react-router-dom'
+import SearchForm from './SearchForm'
 /*
 */
 function Products() {
@@ -70,23 +71,7 @@ function Products() {
   </div>
 
   <div className='card-body'>
-    <form onSubmit={handleSearch}>
-      <div className='row g-2'>
-
-        <div className='col-auto'>
-          <input onChange={(e)=>setState({...state,keyword:e.target.value})} 
-          value={state.keyword} className='form-control' placeholder='Search' />
-        </div>
-        <div className='col-auto'>
-          <button  className='btn btn-success'>
-           <FontAwesomeIcon icon={faSearch} />
-          </button>
-        </div>
-
-
-
-        </div>
-    </form>
+    <SearchForm  handleSearch={handleSearch} state={state} setState={setState} />
     </div>
 
   <div className='card-body'>
