@@ -33,7 +33,7 @@ function EditProduct() {
       <div className='col-md-6 m-auto'>
         <div className='card m-2'>
           <div className='card-header'>
-            <h3>New Product {id}</h3>
+            <h3>Edit Product </h3>
           </div>
           <div className='card-body'>
 

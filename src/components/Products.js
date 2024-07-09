@@ -54,10 +54,6 @@ function Products() {
 
 
 
-  const handleSearch=(event)=>{
-    event.preventDefault();
-    handleGetProducts(state.keyword,1,state.pageSize)
-  }
 
 
   return (
@@ -71,7 +67,7 @@ function Products() {
   </div>
 
   <div className='card-body'>
-    <SearchForm  handleSearch={handleSearch} state={state} setState={setState} />
+    <SearchForm  handleGetProducts={handleGetProducts} />
     </div>
 
   <div className='card-body'>

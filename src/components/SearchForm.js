@@ -1,8 +1,18 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../app/app'
 
-function SearchForm({handleSearch,setState,state}) {
+
+function SearchForm({handleGetProducts}) {
+
+    const [state,setState]=useContext(AppContext)
+    
+  const handleSearch=(event)=>{
+    event.preventDefault();
+    handleGetProducts(state.keyword,1,state.pageSize)
+  }
+
   return (
     <form onSubmit={handleSearch}>
     <div className='row g-2'>

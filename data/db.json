@@ -16,13 +16,13 @@
       "id": 3,
       "name": "Swatch",
       "price": 300,
-      "checked": false
+      "checked": true
     },
     {
       "id": 4,
       "name": "Phone",
       "price": 400,
-      "checked": false
+      "checked": true
     },
     {
       "id": 5,
@@ -214,7 +214,7 @@
       "id": 36,
       "name": "Laptop",
       "price": 3600,
-      "checked": false
+      "checked": true
     },
     {
       "id": 37,
@@ -238,7 +238,7 @@
       "id": 40,
       "name": "Smartwatch",
       "price": 4000,
-      "checked": true
+      "checked": false
     }
   ]
 }
