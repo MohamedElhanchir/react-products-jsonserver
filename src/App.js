@@ -5,6 +5,8 @@ import NewProduct from './components/NewProduct';
 import Products from './components/Products';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from 'react';
+import EditProduct from './components/EditProduct';
+import { AppContext } from './app/app';
 
 function App() {
   const [currentRoute, setCurrentRoute] = useState()
@@ -12,6 +14,8 @@ function App() {
     setCurrentRoute(window.location.pathname.split('/')[1].toLocaleLowerCase())
   })
   return (
+    <AppContext.Provider >
+    
     <BrowserRouter>
     <nav className='m-1 p-1 border border-info' >
       <ul className="nav nav-pills">
@@ -41,8 +45,10 @@ function App() {
       <Route path="/home" element={<Home />} /> 
       <Route path="/new-product" element={<NewProduct />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/editProduct/:id" element={<EditProduct />} />
     </Routes>
     </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 

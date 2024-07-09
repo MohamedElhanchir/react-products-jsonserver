@@ -1,28 +1,73 @@
-import { faCheckCircle, faCircle, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faCircle, faEdit, faSearch, faSearchDollar, faSearchPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
+import { checkProduct, deleteProduct, getProducts } from '../app/app'
+import { useNavigate } from 'react-router-dom'
 /*
 */
 function Products() {
 
-  const [products,setProducts]=useState([
-    {id:1, name:'Product 1', price:100, checked:false},
-    {id:2, name:'Product 2', price:200, checked:true},
-    {id:3, name:'Product 3', price:300, checked:false},
-    {id:4, name:'Product 4', price:400, checked:true},
-    {id:5, name:'Product 5', price:500, checked:false},
-  ])
+  //use state used to store the current state of the products
+  const [state,setState]=useState({
+    products:[],
+    currentPage:1,
+    pageSize:4,
+    keyword:'',
+    totalProducts:0,
+    totalPages:0,
+  })
 
-  const handleDeleteProduct=(product)=>{
-    setProducts(products.filter(p=>p.id!==product.id))
+  const navigate=useNavigate();
+
+  //use effect is a function that is called when the component is mounted
+  //and when the component is updated
+  React.useEffect(()=>{
+      handleGetProducts(state.keyword,state.currentPage,state.pageSize);
+  },[])
+
+  const  handleGetProducts=(keyword,page,size)=>{
+    getProducts(keyword,page,size).then(response=>{
+      setState({
+        ...state,
+        products:response.data,
+        totalPages:Math.ceil(response.headers['x-total-count']/size),
+        currentPage:page,
+        pageSize:size,
+        keyword:keyword
+      })
+    })
+    .catch(error=>{
+      console.log(error)
+    })
   }
 
-  const handleCheckProduct=(id)=>{
-    setProducts(products.map(p=>p.id===id?{...p,checked:!p.checked}:{...p}))
+  const handleDeleteProduct=(product)=>{
+   deleteProduct(product.id)
+   .then(response=>{
+    setState({...state,products:state.products.filter(p=>p.id!==product.id)})
+   })
+   .catch(error=>{
+      console.log(error)
+    })
+  }
+
+  const handleCheckProduct=(product)=>{
+    checkProduct(product).then(response=>{
+      setState({...state,products:state.products.map(p=>p.id===product.id?{...p,checked:!p.checked}:{...p})})
+    })
+    .catch(error=>{
+      console.log(error)
+    })
   }
 
   const handleEditProduct=(product)=>{
-    setProducts(products.map(p=>p.id===product.id?{...p,checked:!p.checked}:{...p}))
+    //setProducts(products.map(p=>p.id===product.id?{...p,checked:!p.checked}:{...p}))
+
+  }
+
+  const handleSearch=(event)=>{
+    event.preventDefault();
+    handleGetProducts(state.keyword,1,state.pageSize)
   }
 
 
@@ -37,6 +82,26 @@ function Products() {
   </div>
 
   <div className='card-body'>
+    <form onSubmit={handleSearch}>
+      <div className='row g-2'>
+
+        <div className='col-auto'>
+          <input onChange={(e)=>setState({...state,keyword:e.target.value})} 
+          value={state.keyword} className='form-control' placeholder='Search' />
+        </div>
+        <div className='col-auto'>
+          <button  className='btn btn-success'>
+           <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+
+
+
+        </div>
+    </form>
+    </div>
+
+  <div className='card-body'>
     <table className='table'>
       <thead>
         <tr>
@@ -49,20 +114,20 @@ function Products() {
       </thead>
       <tbody>
         {
-          products.map(product=>(
+          state.products.map(product=>(
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>
-                <button onClick={() => handleCheckProduct(product.id)}
+                <button onClick={() => handleCheckProduct(product)}
                  className={product.checked ? 'btn btn-outline-success' : 'btn btn-outline-danger'}>
                   <FontAwesomeIcon icon={product.checked ? faCheckCircle : faCircle} />
                 </button>
 
               </td>
               <td>
-                <button onClick={()=>handleEditProduct(product)} className='btn btn-info'>
+                <button onClick={()=>navigate(`/editProduct/${product.id}`)} className='btn btn-info'>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
 
@@ -76,6 +141,17 @@ function Products() {
         }
       </tbody>
     </table>
+    <ul className='nav nav-pills'>
+      {
+        Array.from({length:state.totalPages},(v,k)=>k+1).map(page=>(
+          <li key={page} className='nav-item ms-1'>
+            <button onClick={()=>handleGetProducts(state.keyword,page,state.pageSize)} className={page===state.currentPage?'btn btn-primary':'btn btn-outline-primary'}>
+              {page}
+            </button>
+          </li>
+        ))
+      }
+      </ul>
   </div>
 
   </div>
