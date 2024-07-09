@@ -1,23 +1,14 @@
 import { faCheckCircle, faCircle, faEdit, faSearch, faSearchDollar, faSearchPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
-import { checkProduct, deleteProduct, getProducts } from '../app/app'
+import React, { useContext, useState } from 'react'
+import { AppContext, checkProduct, deleteProduct, getProducts } from '../app/app'
 import { useNavigate } from 'react-router-dom'
 /*
 */
 function Products() {
 
-  //use state used to store the current state of the products
-  const [state,setState]=useState({
-    products:[],
-    currentPage:1,
-    pageSize:4,
-    keyword:'',
-    totalProducts:0,
-    totalPages:0,
-  })
-
   const navigate=useNavigate();
+  const [state,setState]=useContext(AppContext)
 
   //use effect is a function that is called when the component is mounted
   //and when the component is updated
@@ -60,10 +51,7 @@ function Products() {
     })
   }
 
-  const handleEditProduct=(product)=>{
-    //setProducts(products.map(p=>p.id===product.id?{...p,checked:!p.checked}:{...p}))
 
-  }
 
   const handleSearch=(event)=>{
     event.preventDefault();

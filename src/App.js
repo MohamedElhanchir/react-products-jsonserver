@@ -6,7 +6,7 @@ import Products from './components/Products';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from 'react';
 import EditProduct from './components/EditProduct';
-import { AppContext } from './app/app';
+import { AppContext, useAppState } from './app/app';
 
 function App() {
   const [currentRoute, setCurrentRoute] = useState()
@@ -14,7 +14,7 @@ function App() {
     setCurrentRoute(window.location.pathname.split('/')[1].toLocaleLowerCase())
   })
   return (
-    <AppContext.Provider >
+    <AppContext.Provider value={useAppState()} >
     
     <BrowserRouter>
     <nav className='m-1 p-1 border border-info' >

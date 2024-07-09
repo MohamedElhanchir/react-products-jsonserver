@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 /**
  * Axios instance for making API requests to the product API.
@@ -48,3 +48,18 @@ we use the createContext function to create a context object that we can
  use to share data between components.
 */
 export const AppContext = createContext();
+
+export const useAppState = ()=>{
+    const initialState ={
+        products:[],
+        currentPage:1,
+        pageSize:4,
+        keyword:'',
+        totalProducts:0,
+        totalPages:0,
+      }
+      //use state used to store the current state of the products
+  const appState=useState(initialState);
+  return appState;
+}
+  

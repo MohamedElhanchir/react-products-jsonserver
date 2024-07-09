@@ -54,7 +54,7 @@ function EditProduct() {
               onChange={(e)=>setChecked(e.target.checked)}
               checked={checked}
               type="checkbox"  id="flexCheckChecked"/>
-              <label className="form-check-label" for="flexCheckChecked">Checked</label>
+              <label className="form-check-label" htmlFor="flexCheckChecked">Checked</label>
               </div>
 
               <button type='submit' className='btn btn-primary'>
